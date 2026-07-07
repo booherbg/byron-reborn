@@ -2,7 +2,9 @@
 
 A fully 3D-printed, genuinely leak-proof replacement lid for the **Contigo Byron 2.0** 16oz travel mug (SnapSeal style) — because the OEM lid warps eventually, and the mug deserves better.
 
-**Status:** design approved, reverse-engineering in progress (measuring kit + thread test rings next).
+**Status:** toolkit built (measuring kit + thread test rings in `stl/`). Waiting on mug
+measurements — **see [NEXT-STEPS.md](NEXT-STEPS.md) to pick this up** (30-min human
+checklist + a paste-ready LLM resume prompt).
 
 ## The idea
 

@@ -1,0 +1,20 @@
+# Gauge readings — fill in measured values (units: mm unless noted)
+# Blank = unsure; the LLM brackets unknowns with test prints instead.
+# These map 1:1 to scad/params.scad.
+
+bore_d        =        # step-cone gauge: the labeled step that rests on the rim
+bore_depth    =        # ruler: rim top down to where the old lid's gasket sat (rough ok)
+rim_od        =        # ruler across the outer rim
+thread_pitch  =        # pitch comb: which tooth set nested into the crests
+thread_starts =        # count of thread entry points around the rim (photo 3)
+thread_len    =        # ruler: axial height of the thread band on the MUG side
+grommet_cs_w  =        # slot card: snug slot for the ring's radial thickness
+grommet_cs_h  =        # slot card: snug slot for the ring's axial height
+grommet_od    =        # ruler: grommet outer diameter, laid flat
+
+# thread_d / thread_depth are hard to measure without calipers (they're inside the
+# neck) — leave them; they get derived from photos + the ring fit test.
+
+# Circle one / write answer:
+# Mug threads are INSIDE the rim (lid screws IN) or OUTSIDE the neck (lid screws ON)? ->
+# Old lid unscrews counter-clockwise like a jar (right-handed thread)? yes/no ->
