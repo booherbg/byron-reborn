@@ -51,12 +51,12 @@ Tasks 1–8 are photo-independent (do today). Tasks 9–18 gate on photos/prints
 **Interfaces:**
 - Produces: `make check` / `make renders` / `make gallery` / `make stl` targets; `build/` for intermediates; part lists via `PARTS_*` variables consumed by later tasks as they add parts.
 
-- [ ] **Step 1: Record toolchain versions (the "failing test" is: Makefile doesn't exist yet)**
+- [x] **Step 1: Record toolchain versions (the "failing test" is: Makefile doesn't exist yet)**
 
 Run: `openscad --version 2>&1; make --version | head -1`
 Expected: OpenSCAD version prints (2021.01 or newer). Record the exact string in `prints.md` header (Step 3). `make check` fails with "No rule" — that's the red state.
 
-- [ ] **Step 2: Write `Makefile`**
+- [x] **Step 2: Write `Makefile`**
 
 ```make
 OPENSCAD ?= openscad
@@ -98,7 +98,7 @@ clean:
 
 Note: `PARTS` entries look like `gauge-cone:gauges.scad:-DPART=\"cone\"` — added by later tasks. Three rules: the template quoting (`$$`) is required inside `define`; string defines need `\"` escapes so the shell delivers real quotes to OpenSCAD (`-DPART=cone` without them is an undefined *variable*, not a string); multiple defines in the third field are separated by commas, which the foreach converts to spaces (a raw space would split the entry into two PARTS words).
 
-- [ ] **Step 3: Write `prints.md`**
+- [x] **Step 3: Write `prints.md`**
 
 ```markdown
 # Print & Test Log — Byron Reborn
@@ -109,14 +109,14 @@ Toolchain: OpenSCAD <paste `openscad --version` here>, Bambu Studio, H2D, 0.4mm 
 |---|---|---|---|---|---|
 ```
 
-- [ ] **Step 4: Write `.gitignore`**
+- [x] **Step 4: Write `.gitignore`**
 
 ```
 build/
 .DS_Store
 ```
 
-- [ ] **Step 5: Verify green, commit**
+- [x] **Step 5: Verify green, commit**
 
 Run: `mkdir -p scad tools docs/photos && touch docs/photos/.gitkeep && make check`
 Expected: FAIL — "No rule to make target 'scad/smoke.scad'" (red until Task 2). Commit anyway — scaffolding is the deliverable:
@@ -133,17 +133,17 @@ git add Makefile prints.md .gitignore docs/photos/.gitkeep && git commit -m "bui
 **Interfaces:**
 - Produces: `include <lib/BOSL2/std.scad>` + `include <lib/BOSL2/threading.scad>` usable from any `scad/*.scad`; smoke part proves multi-start threads render.
 
-- [ ] **Step 1: Red — `make check` fails (smoke.scad missing)**
+- [x] **Step 1: Red — `make check` fails (smoke.scad missing)**
 
 Run: `make check` — Expected: "No rule to make target" mentioning smoke.
 
-- [ ] **Step 2: Add submodule**
+- [x] **Step 2: Add submodule**
 
 ```bash
 git submodule add https://github.com/BelfrySCAD/BOSL2.git scad/lib/BOSL2
 ```
 
-- [ ] **Step 3: Write `scad/smoke.scad`** (threads + params echo in one sanity article; params.scad arrives in Task 3 — for now create it as an empty file so includes resolve)
+- [x] **Step 3: Write `scad/smoke.scad`** (threads + params echo in one sanity article; params.scad arrives in Task 3 — for now create it as an empty file so includes resolve)
 
 ```bash
 touch scad/params.scad
@@ -159,12 +159,12 @@ trapezoidal_threaded_rod(d=20, l=10, pitch=4, thread_angle=30, starts=4, blunt_s
 echo("SMOKE_OK");
 ```
 
-- [ ] **Step 4: Green**
+- [x] **Step 4: Green**
 
 Run: `make check`
 Expected: output contains `ECHO: "SMOKE_OK"` and `OK scad/smoke.scad`, exit 0. (If `blunt_start` is unknown in the pinned BOSL2, delete that argument — it's cosmetic here.)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add .gitmodules scad/lib/BOSL2 scad/smoke.scad scad/params.scad && git commit -m "build: BOSL2 submodule + thread smoke test"
@@ -178,7 +178,7 @@ git add .gitmodules scad/lib/BOSL2 scad/smoke.scad scad/params.scad && git commi
 **Interfaces:**
 - Produces (exact names later tasks consume): `bore_d, bore_depth, rim_od, thread_pitch, thread_starts, thread_d, thread_depth, thread_angle, thread_len, thread_clearance, lead, grommet_cs_w, grommet_cs_h, grommet_od, gland_compression, gland_floor_d, gland_w, lip_wall, lip_flare_deg, lip_oversize, lip_h, lip_gap, skirt_wall, top_th, flange_d, flange_th, seat_top_d, seat_bot_d, seat_h, seat_wall, seat_taper, plug_wall, plug_fit_gap, stem_d, stem_h, head_d, lever_w, lever_arm_t, pivot_d, pip_gap, pin_press, cam_lift, overcenter_deg, detent_r, spout_ext_thread_p, spout_ext_thread_d, fdm_xy_comp` — all in mm/deg.
 
-- [ ] **Step 1: Red — write the assert first.** Append to `scad/smoke.scad`:
+- [x] **Step 1: Red — write the assert first.** Append to `scad/smoke.scad`:
 
 ```openscad
 assert(!is_undef(lead), "params.scad must define lead");
@@ -188,7 +188,7 @@ echo(str("PARAMS: bore_d=", bore_d, " lead=", lead, " thread_len=", thread_len,
 
 Run: `make check` — Expected: FAIL, `lead` undefined.
 
-- [ ] **Step 2: Write `scad/params.scad`**
+- [x] **Step 2: Write `scad/params.scad`**
 
 ```openscad
 // ============ Byron Reborn — ALL parameters ============
@@ -248,12 +248,12 @@ detent_r = 1.0;
 spout_ext_thread_p = 2.5; spout_ext_thread_d = 21.5;
 ```
 
-- [ ] **Step 3: Green**
+- [x] **Step 3: Green**
 
 Run: `make check`
 Expected: `ECHO: "PARAMS: bore_d=54 lead=16 thread_len=7 gland_floor_d=48.4 seat: 16.8→17.8x6"`, exit 0.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scad/params.scad scad/smoke.scad && git commit -m "feat: full parameter set with half-turn + gland-fill asserts"
@@ -268,9 +268,9 @@ git add scad/params.scad scad/smoke.scad && git commit -m "feat: full parameter 
 **Interfaces:**
 - Produces: `module step_cone_gauge()`; part id `gauge-cone`; `PART` selector convention (`PART="all"` default renders everything in the file, specific name exports one part).
 
-- [ ] **Step 1: Red.** Makefile: `CHECK_SRCS := scad/smoke.scad scad/gauges.scad` and `PARTS += gauge-cone:gauges.scad:-DPART=\"cone\"`. Run `make check` — Expected: FAIL (gauges.scad missing).
+- [x] **Step 1: Red.** Makefile: `CHECK_SRCS := scad/smoke.scad scad/gauges.scad` and `PARTS += gauge-cone:gauges.scad:-DPART=\"cone\"`. Run `make check` — Expected: FAIL (gauges.scad missing).
 
-- [ ] **Step 2: Write `scad/gauges.scad`**
+- [x] **Step 2: Write `scad/gauges.scad`**
 
 ```openscad
 // gauges.scad — printed metrology (PLA fine: never touches heat)
@@ -306,12 +306,12 @@ if (PART=="cone" || PART=="all") step_cone_gauge();
 echo("GAUGES_OK");
 ```
 
-- [ ] **Step 3: Green + render**
+- [x] **Step 3: Green + render**
 
 Run: `make check && make renders/gauge-cone.png stl/gauge-cone.stl`
 Expected: check echoes `GAUGES_OK`; PNG and STL exist. Open the PNG: 19 shrinking steps, labels visible, grip bar on top, Ø10 bore through.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scad/gauges.scad Makefile renders/gauge-cone.png stl/gauge-cone.stl && git commit -m "feat: step-cone bore gauge (44-62mm, 1mm steps)"
@@ -325,9 +325,9 @@ git add scad/gauges.scad Makefile renders/gauge-cone.png stl/gauge-cone.stl && g
 **Interfaces:**
 - Produces: `module pitch_comb()`; part id `gauge-comb`. Candidate pitches `[2,2.5,3,3.5,4,4.5,5,6]` — 4 per long edge of one card.
 
-- [ ] **Step 1: Red.** Add to `gauges.scad`: `if (PART=="comb" || PART=="all") translate([80,0,0]) pitch_comb();` before writing the module. `make check` — Expected: FAIL "unknown module pitch_comb".
+- [x] **Step 1: Red.** Add to `gauges.scad`: `if (PART=="comb" || PART=="all") translate([80,0,0]) pitch_comb();` before writing the module. `make check` — Expected: FAIL "unknown module pitch_comb".
 
-- [ ] **Step 2: Implement**
+- [x] **Step 2: Implement**
 
 ```openscad
 // Hold a comb edge against the neck threads; the tooth set that nests IS the pitch.
@@ -351,9 +351,9 @@ module label(p, at) translate([at[0], at[1], 2.4-0.6])
   linear_extrude(0.7) text(str(p), size=4, font=FONT, halign="center", valign="center");
 ```
 
-- [ ] **Step 3: Green + render.** Run: `make check && make renders/gauge-comb.png stl/gauge-comb.stl` — Expected: card with 8 labeled comb edges, teeth pointing outward from both long edges.
+- [x] **Step 3: Green + render.** Run: `make check && make renders/gauge-comb.png stl/gauge-comb.stl` — Expected: card with 8 labeled comb edges, teeth pointing outward from both long edges.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scad/gauges.scad Makefile renders/gauge-comb.png stl/gauge-comb.stl && git commit -m "feat: thread pitch comb (2-6mm, 8 candidates)"
@@ -367,9 +367,9 @@ git add scad/gauges.scad Makefile renders/gauge-comb.png stl/gauge-comb.stl && g
 **Interfaces:**
 - Produces: `module slot_card()`; part id `gauge-slotcard`. Slots 2.00–6.00mm × 0.25 steps, two rows; grommet cross-section slides in until snug — snug slot = cross-section dimension.
 
-- [ ] **Step 1: Red.** Add `if (PART=="slotcard" || PART=="all") translate([0,-70,0]) slot_card();` — `make check` fails on unknown module.
+- [x] **Step 1: Red.** Add `if (PART=="slotcard" || PART=="all") translate([0,-70,0]) slot_card();` — `make check` fails on unknown module.
 
-- [ ] **Step 2: Implement**
+- [x] **Step 2: Implement**
 
 ```openscad
 module slot_card(w_min=2.0, w_max=6.0, step=0.25, depth=11, th=3.0, wall=3.2) {
@@ -399,9 +399,9 @@ module slot_row(row, wall, y0, depth, th)
 
 Note: the two `slot_row` translate branches must both start the cut at the card edge (`y0` for bottom row, `y0-|depth|` for top row); the expression above collapses to that — verify visually in the render (Step 3), it's the step most likely to need a sign fix.
 
-- [ ] **Step 3: Green + render.** Run: `make check && make renders/gauge-slotcard.png stl/gauge-slotcard.stl` — Expected: one card, 17 labeled slots in two opposing rows, all cuts reaching their edge.
+- [x] **Step 3: Green + render.** Run: `make check && make renders/gauge-slotcard.png stl/gauge-slotcard.stl` — Expected: one card, 17 labeled slots in two opposing rows, all cuts reaching their edge.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scad/gauges.scad Makefile renders/gauge-slotcard.png stl/gauge-slotcard.stl && git commit -m "feat: grommet slot gauge card (2-6mm x 0.25)"
@@ -417,9 +417,9 @@ git add scad/gauges.scad Makefile renders/gauge-slotcard.png stl/gauge-slotcard.
 - Consumes: all `thread_*`, `lead` from params.
 - Produces: `module test_ring(clr)`; STLs `ring-c15/30/45.stl`; embossed label format `C<clr*100> P<pitch> S<starts>` so printed rings stay identifiable.
 
-- [ ] **Step 1: Red.** Update Makefile lists; `make check` fails (ring.scad missing).
+- [x] **Step 1: Red.** Update Makefile lists; `make check` fails (ring.scad missing).
 
-- [ ] **Step 2: Write `scad/ring.scad`**
+- [x] **Step 2: Write `scad/ring.scad`**
 
 ```openscad
 // ring.scad — 15-minute thread-fit coupon. Print 3 clearances; the one that spins
@@ -453,10 +453,10 @@ test_ring();
 echo(str("RING_OK clr=", CLR));
 ```
 
-- [ ] **Step 3: Green + renders/STLs.** Run: `make check && make renders stl`
+- [x] **Step 3: Green + renders/STLs.** Run: `make check && make renders stl`
 Expected: `RING_OK` ×1 in check; `ring-c15/30/45` PNGs + STLs; label readable (mirrored text on the underside prints readable from below).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scad/ring.scad Makefile renders/ring-*.png stl/ring-*.stl && git commit -m "feat: parametric thread test rings at 3 clearances"
@@ -470,9 +470,9 @@ git add scad/ring.scad Makefile renders/ring-*.png stl/ring-*.stl && git commit 
 **Interfaces:**
 - Produces: `renders/index.html` — static, self-contained gallery of every PNG; regenerated by `make renders`.
 
-- [ ] **Step 1: Red.** Run: `make renders` — Expected: FAIL at `./tools/gallery.sh` (missing).
+- [x] **Step 1: Red.** Run: `make renders` — Expected: FAIL at `./tools/gallery.sh` (missing).
 
-- [ ] **Step 2: Write `tools/gallery.sh`**
+- [x] **Step 2: Write `tools/gallery.sh`**
 
 ```bash
 #!/bin/sh
@@ -492,10 +492,10 @@ out=renders/index.html
 echo "gallery: $out"
 ```
 
-- [ ] **Step 3: Green.** Run: `chmod +x tools/gallery.sh && make renders && open renders/index.html`
+- [x] **Step 3: Green.** Run: `chmod +x tools/gallery.sh && make renders && open renders/index.html`
 Expected: browser shows every part render with captions.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add tools/gallery.sh renders/index.html && git commit -m "feat: static render gallery for web previews"
@@ -860,3 +860,16 @@ git add README.md prints.md && git commit -m "docs: v1.0 — daily-driver valida
 - Spec coverage: §1→Tasks 12/13/17 gates; §2.1→3/7/9/10/11; §2.2→11/12/13; §2.3→14/15/16/17; §3→4/5/6/9; §4→print-gate settings lines; §5 ladder→Tasks 9–17 in order; §6 mitigations→tuning loops in 12/13/14/17; §7→Tasks 1/8 + repo layout. No gaps found.
 - Known-fragile steps are labeled where visual verification is the test (slot-card edge cuts, boss/lever alignment) — renders are the red/green signal there.
 - Type consistency: all cross-file names come from `params.scad` (Task 3 list) — `seat_sleeve_local` in mech vs `seat_sleeve` in lid intentionally duplicated (coupon must not depend on lid.scad); flagged as acceptable DRY exception.
+
+## Execution deviations (2026-07-07, Tasks 1–8)
+
+Recorded during inline execution; the committed code is the source of truth.
+
+1. Makefile: directory creation moved into recipes (`mkdir -p $(@D)`) — the planned `build renders stl:` rule collided with the phony `renders` aggregate target.
+2. Makefile: the check recipe greps the `.echo` output for ERROR/WARNING and deletes it on failure — OpenSCAD 2021.01 exits 0 when an assert fails during `.echo` export, so exit codes alone are green-blind.
+3. Makefile: gallery invocation guarded with `[ -x tools/gallery.sh ]` so Task 4–7 renders don't fail before Task 8 creates the script.
+4. gauges.scad: step-cone retrieval bore removed (the grip bar makes it redundant, and the bore split the bar); grip bar embedded 1mm into the top step.
+5. gauges.scad: slot-card layout rewritten with cumulative-sum functions (`sumv`/`slot_x`/`row_w`) instead of the plan's draft recursion; two opposing rows, vertical labels, `H = 2*depth + 22`.
+6. params.scad: `gland_w` factor raised 1.18 → 1.30 — the gland-fill assert caught the planned value overfilling the groove (0.95 > 0.92 cap); fill ≈ 0.87 and is independent of the measured cross-section.
+7. ring.scad: `thread_depth` passed explicitly to `trapezoidal_threaded_rod` (BOSL2's default of pitch/2 silently overrode the params value).
+8. CGAL reading note: `Volumes: 2` in STL export stats = one solid + the unbounded outer cell. A single printable part reports 2, not 1.
