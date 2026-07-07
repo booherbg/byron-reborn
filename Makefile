@@ -12,9 +12,11 @@ PARTS :=
 
 .PHONY: check renders gallery stl clean
 check: $(patsubst scad/%.scad,build/%.echo,$(CHECK_SRCS))
+# 2021.01 quirk: assert failures still exit 0 on .echo export — grep the output for trouble.
 build/%.echo: scad/%.scad scad/params.scad
 	@mkdir -p $(@D)
 	$(OPENSCAD) $(SCAD_FLAGS) -o $@ $<
+	@if grep -qE "^(ERROR|WARNING)" $@; then cat $@; rm -f $@; exit 1; fi
 	@echo "OK $<"
 
 define PART_template
