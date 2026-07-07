@@ -30,7 +30,7 @@ One parametric OpenSCAD model (BOSL2 for threads) emits every part and variant. 
 ### 2.1 Thread interface
 
 - Assumption (to confirm from photos before Phase 0): the lid screws **into** the stainless neck — male threads on the lid skirt engaging female thread features inside the mug rim, gasket sealing radially against the smooth bore above them, West-Loop-convention. If photos show the opposite (external threads on the neck), the model flips to a female-threaded cap skirt; BOSL2 supports both and the rest of the design is unchanged.
-- Expected form: coarse trapezoidal/buttress-ish profile, **multi-start (likely 3–4)** — the OEM lid seats in under one full turn. Thread starts = count of thread entry points visible around the rim.
+- Expected form: coarse trapezoidal/buttress-ish profile, **multi-start (likely 3–4)**. Measured fact (Blaine, 2026-07-07): the OEM lid removes in **exactly one half turn**, so usable thread length ≈ lead/2 — with a plausible 3–4 mm pitch that implies a lead around 12–16 mm and a thread band ~6–8 mm tall. Thread starts = count of thread entry points visible around the rim; photos confirm starts and pitch, and measured lead must satisfy the half-turn constraint.
 - Parameters: `thread_d`, `lead`, `starts`, `thread_depth`, `thread_len`, `radial_clearance`.
 - Fit strategy: print **thread-fit rings** (thread band only, ~15 min each) at radial clearances 0.15 / 0.30 / 0.45 mm, embossed labels. Pass = spins on smoothly, seats with no wobble. Winning numbers freeze into `params.scad`.
 
@@ -61,7 +61,7 @@ No calipers on hand; the printer bootstraps its own metrology (~25 min of printi
 1. Top-down of the mug mouth, ruler across the diameter.
 2. Side closeup of neck threads, ruler vertical.
 3. Rim shot for counting thread entry points (starts).
-4. Note how many quarter-turns seat the old lid.
+4. Turns to seat the old lid — **answered: exactly ½ turn** (recorded above; constrains lead × thread length).
 5. Old lid: side profile; underside with grommet removed; mechanism open (side + below) — the OEM lid is the proportion reference for lever/cam geometry.
 6. Grommet flat on the ruler (OD) and pinched against it (cross-section sanity check vs. slot gauge).
 
