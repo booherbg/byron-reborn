@@ -4,11 +4,11 @@ RENDER_FLAGS := --imgsize 1100,850 --autocenter --viewall --projection p
 comma := ,
 
 # Geometry files added as tasks land. Each must render standalone with asserts passing.
-CHECK_SRCS := scad/smoke.scad
+CHECK_SRCS := scad/smoke.scad scad/gauges.scad
 # Part entries: name:file:defines
 #  - string defines need \" escapes: gauge-cone:gauges.scad:-DPART=\"cone\"
 #  - multiple defines separated by commas (converted to spaces): -DVARIANT=\"G\",-DSPOUT=false
-PARTS :=
+PARTS := gauge-cone:gauges.scad:-DPART=\"cone\"
 
 .PHONY: check renders gallery stl clean
 check: $(patsubst scad/%.scad,build/%.echo,$(CHECK_SRCS))
