@@ -9,7 +9,8 @@ CHECK_SRCS := scad/smoke.scad scad/gauges.scad
 #  - string defines need \" escapes: gauge-cone:gauges.scad:-DPART=\"cone\"
 #  - multiple defines separated by commas (converted to spaces): -DVARIANT=\"G\",-DSPOUT=false
 PARTS := gauge-cone:gauges.scad:-DPART=\"cone\" \
-         gauge-comb:gauges.scad:-DPART=\"comb\"
+         gauge-comb:gauges.scad:-DPART=\"comb\" \
+         gauge-slotcard:gauges.scad:-DPART=\"slotcard\"
 
 .PHONY: check renders gallery stl clean
 check: $(patsubst scad/%.scad,build/%.echo,$(CHECK_SRCS))

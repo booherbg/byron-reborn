@@ -45,6 +45,37 @@ module comb_edge(p, seg, at, rot) translate(at) rotate([0,0,rot]) {
 module comb_label(p, at, th) translate([at[0], at[1], th-0.6])
   linear_extrude(0.7) text(str(p), size=4, font=FONT, halign="center", valign="center");
 
+// Slot card: slide the grommet cross-section into slots until snug — the snug
+// slot IS the dimension. Soft rubber measures badly under a ruler, well in a slot.
+function sumv(v, n) = n<=0 ? 0 : v[n-1] + sumv(v, n-1);
+function slot_x(ws, i, wall) = wall + sumv(ws, i) + i*wall;
+function row_w(ws, wall) = wall + sumv(ws, len(ws)) + len(ws)*wall;
+
+module slot_card(depth=11, th=3.0, wall=3.2) {
+  row1 = [for (w=[2.0:0.25:4.0]) w];    // bottom edge
+  row2 = [for (w=[4.25:0.25:6.0]) w];   // top edge
+  H = 2*depth + 22;
+  W = max(row_w(row1, wall), row_w(row2, wall));
+  difference() {
+    cube([W, H, th]);
+    for (i=[0:len(row1)-1]) {
+      x = slot_x(row1, i, wall);
+      translate([x, -0.5, -0.5]) cube([row1[i], depth+0.5, th+1]);
+      slot_label(row1[i], x + row1[i]/2, depth+2, "left", th);
+    }
+    for (i=[0:len(row2)-1]) {
+      x = slot_x(row2, i, wall);
+      translate([x, H-depth, -0.5]) cube([row2[i], depth+0.5, th+1]);
+      slot_label(row2[i], x + row2[i]/2, H-depth-2, "right", th);
+    }
+  }
+}
+// vertical (rotated) debossed label so it fits above narrow slots
+module slot_label(w, x, y, hal, th) translate([x, y, th-0.6])
+  linear_extrude(0.7) rotate([0,0,90])
+    text(str(w), size=2.4, font=FONT, halign=hal, valign="center");
+
 if (PART=="cone" || PART=="all") step_cone_gauge();
 if (PART=="comb" || PART=="all") translate([90,0,0]) pitch_comb();
+if (PART=="slotcard" || PART=="all") translate([0,-90,0]) slot_card();
 echo("GAUGES_OK");
